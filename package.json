@@ -2,7 +2,7 @@
   "name": "driver-ai",
   "productName": "Driver AI",
   "version": "0.0.1",
-  "description": "Driver AI is a tool for automating and controlling a macOS computer using AI.",
+  "description": "Driver AI is a tool for automating and controlling a computer using AI.",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -31,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.11.0",
     "electron": "36.4.0",
     "eslint": "^8.57.1",

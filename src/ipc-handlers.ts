@@ -1,13 +1,15 @@
 import { ipcMain, BrowserWindow, globalShortcut } from "electron";
+import { Computer } from "./computer"; // Import Computer interface
 import { MacOSComputer } from "./macos-computer";
+import { WindowsComputer } from "./windows-computer"; // Import WindowsComputer
 import { AgentMessage, ConversationRole } from "./types";
 import { Agent } from "./agent";
 import { AIProvider } from "./ai";
 
 interface IpcHandlerDependencies {
   getMainWindow: () => BrowserWindow | null;
-  getComputer: () => MacOSComputer | null;
-  setComputer: (computer: MacOSComputer | null) => void;
+  getComputer: () => Computer | null; // Use Computer interface
+  setComputer: (computer: Computer | null) => void; // Use Computer interface
   getAgent: () => Agent | null;
   setAgent: (agent: Agent | null) => void;
   getConversationItems: () => AgentMessage[];
@@ -98,8 +100,17 @@ export function setupIpcHandlers(deps: IpcHandlerDependencies) {
     const mainWindow = deps.getMainWindow();
 
     try {
-      // Initialize computer
-      const computer = new MacOSComputer();
+      // Initialize computer based on platform
+      let computer: Computer;
+      if (process.platform === "win32") {
+        computer = new WindowsComputer();
+      } else if (process.platform === "darwin") {
+        computer = new MacOSComputer();
+      } else {
+        // Potentially add a LinuxComputer or throw an error for unsupported platforms
+        console.error(`Unsupported platform: ${process.platform}`);
+        throw new Error(`Unsupported platform: ${process.platform}`);
+      }
       deps.setComputer(computer);
 
       const tools: any[] = [

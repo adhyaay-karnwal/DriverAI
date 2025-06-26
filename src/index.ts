@@ -1,5 +1,5 @@
 import { app, BrowserWindow, screen } from "electron";
-import { MacOSComputer } from "./macos-computer";
+import { Computer } from "./computer"; // Import the abstract class/interface
 import { AgentMessage, ConversationRole } from "./types";
 import { Agent } from "./agent";
 import { setupIpcHandlers } from "./ipc-handlers";
@@ -17,7 +17,7 @@ if (require("electron-squirrel-startup")) {
 }
 
 let mainWindow: BrowserWindow | null = null;
-let computer: MacOSComputer | null = null;
+let computer: Computer | null = null; // Use the generic Computer type
 let agent: Agent | null = null;
 let conversationItems: AgentMessage[] = [];
 
@@ -81,7 +81,7 @@ const acknowledgeSafetyCheckCallback = (message: string): boolean => {
 setupIpcHandlers({
   getMainWindow: () => mainWindow,
   getComputer: () => computer,
-  setComputer: (newComputer: MacOSComputer | null) => {
+  setComputer: (newComputer: Computer | null) => { // Use the generic Computer type
     computer = newComputer;
   },
   getAgent: () => agent,
